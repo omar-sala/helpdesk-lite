@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  AGENT
+  MANAGER
+}
+
+enum TicketCategory {
+  TECHNICAL_ISSUE
+  ACCOUNT_ACCESS
+  BILLING
+  SOFTWARE
+  HARDWARE
+  NETWORK
+  GENERAL_INQUIRY
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  PENDING
+  RESOLVED
+  CLOSED
+}
+
+enum ActivityType {
+  CREATED
+  COMMENT
+  STATUS_CHANGE
+  ASSIGNMENT
+  PRIORITY_CHANGE
+}
+
+model User {
+  id               String           @id @default(uuid())
+  name             String
+  email            String           @unique
+  passwordHash     String
+  role             Role             @default(EMPLOYEE)
+  isActive         Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  requestedTickets Ticket[]         @relation("Requester")
+  assignedTickets  Ticket[]         @relation("Assignee")
+  activities       TicketActivity[]
+}
+
+model Ticket {
+  id          String           @id @default(uuid())
+  title       String
+  description String
+  category    TicketCategory
+  priority    TicketPriority
+  status      TicketStatus     @default(OPEN)
+  requesterId String
+  assigneeId  String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  resolvedAt  DateTime?
+  requester   User             @relation("Requester", fields: [requesterId], references: [id], onDelete: Restrict)
+  assignee    User?            @relation("Assignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  activities  TicketActivity[]
+
+  @@index([requesterId])
+  @@index([assigneeId])
+  @@index([status])
+  @@index([priority])
+  @@index([category])
+}
+
+model TicketActivity {
+  id        String       @id @default(uuid())
+  ticketId  String
+  userId    String
+  type      ActivityType
+  message   String
+  createdAt DateTime     @default(now())
+  ticket    Ticket       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user      User         @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([ticketId])
+  @@index([userId])
+}

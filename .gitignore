@@ -1,0 +1,15 @@
+node_modules
+dist
+build
+.vite
+coverage
+.env
+.env.local
+.DS_Store
+*.log
+.vercel
+frontend/dist
+backend/dist
+backend/.env
+frontend/.env
+frontend/.env.local
