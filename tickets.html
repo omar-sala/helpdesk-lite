@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tickets · HelpDesk Lite</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <div class="app">
+    <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+    <aside id="sidebar" class="sidebar" aria-label="Primary">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">HD</div>
+        <div>
+          <p class="brand-name">HelpDesk Lite</p>
+          <p class="brand-sub">Support workspace</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a class="nav-link" data-page="dashboard" href="dashboard.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 13h7V4H4v9Zm9 7h7V4h-7v16ZM4 20h7v-5H4v5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-link" data-page="tickets" href="tickets.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h16v3a2 2 0 0 0 0 4v3H4v-3a2 2 0 0 0 0-4V8Z" stroke="currentColor" stroke-width="1.7"/><path d="M9 8v10M15 8v10" stroke="currentColor" stroke-width="1.7"/></svg>
+          Tickets
+        </a>
+        <a class="nav-link" data-page="submit" href="index.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          Submit Ticket
+        </a>
+      </nav>
+      <div class="sidebar-foot">Frontend-only workspace · localStorage</div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open navigation">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </button>
+          <div>
+            <h1 id="page-title" class="page-title">Tickets</h1>
+            <p id="page-desc" class="page-desc">Search, filter, assign, and move tickets through the queue.</p>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="notice-wrap">
+            <button id="notice-btn" class="icon-btn" type="button" aria-label="Priority notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9Z" stroke="currentColor" stroke-width="1.7"/><path d="M10 20a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span id="notice-count" class="badge-dot" hidden>0</span>
+            </button>
+            <div id="notice-panel" class="notice-panel" role="menu"></div>
+          </div>
+          <div class="agent-chip">
+            <div class="agent-avatar" aria-hidden="true">SA</div>
+            <div class="agent-meta">
+              <span>Signed in</span>
+              <strong>Support Agent</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="main" class="content">
+        <div class="toolbar">
+          <div class="field search-field">
+            <label for="search">Search</label>
+            <input id="search" type="search" placeholder="Title, description, email, or ID">
+          </div>
+          <div class="field">
+            <label for="filter-status">Status</label>
+            <select id="filter-status">
+              <option value="ALL">All</option>
+              <option value="TO_DO">To Do</option>
+              <option value="IN_PROGRESS">In Progress</option>
+              <option value="IN_REVIEW">In Review</option>
+              <option value="DONE">Done</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-priority">Priority</label>
+            <select id="filter-priority">
+              <option value="ALL">All</option>
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+              <option value="URGENT">Urgent</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-category">Category</label>
+            <select id="filter-category">
+              <option value="ALL">All</option>
+              <option>Technical</option>
+              <option>HR</option>
+              <option>Billing</option>
+              <option>General</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-assignment">Assignment</label>
+            <select id="filter-assignment">
+              <option value="ALL">All</option>
+              <option value="ASSIGNED">Assigned</option>
+              <option value="UNASSIGNED">Unassigned</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sort">Sort</label>
+            <select id="sort">
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="highest">Highest Priority</option>
+              <option value="lowest">Lowest Priority</option>
+            </select>
+          </div>
+          <div>
+            <span class="tiny" id="result-count">0 tickets</span>
+            <div class="view-toggle" role="group" aria-label="Ticket view">
+              <button id="view-kanban" type="button" aria-pressed="true">Kanban</button>
+              <button id="view-list" type="button" aria-pressed="false">List</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="skeleton" hidden>
+          <div class="kanban">
+            <div class="kanban-col card-pad"><div class="skeleton"></div><div class="skeleton" style="margin-top:12px;height:72px"></div></div>
+            <div class="kanban-col card-pad"><div class="skeleton"></div><div class="skeleton" style="margin-top:12px;height:72px"></div></div>
+            <div class="kanban-col card-pad"><div class="skeleton"></div><div class="skeleton" style="margin-top:12px;height:72px"></div></div>
+            <div class="kanban-col card-pad"><div class="skeleton"></div><div class="skeleton" style="margin-top:12px;height:72px"></div></div>
+          </div>
+        </div>
+
+        <div id="kanban-wrap">
+          <div id="kanban" class="kanban"></div>
+        </div>
+        <div id="list-wrap" hidden>
+          <div id="list-table"></div>
+          <div id="list-mobile" class="mobile-cards"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="modal-overlay" class="overlay"></div>
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true"></div>
+  <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+  <script src="js/app.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/tickets.js"></script>
+</body>
+</html>
