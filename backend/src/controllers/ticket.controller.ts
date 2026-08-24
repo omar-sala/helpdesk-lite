@@ -33,7 +33,7 @@ export const summary = asyncHandler(async (req, res: Response) => {
 })
 
 export const getOne = asyncHandler(async (req, res: Response) => {
-  const ticket = await getTicket((req as AuthedRequest).user, req.params.id)
+  const ticket = await getTicket((req as AuthedRequest).user, String(req.params.id))
   res.json({ success: true, data: ticket })
 })
 
@@ -47,14 +47,14 @@ export const update = asyncHandler(async (req, res: Response) => {
   const body = updateTicketSchema.parse(req.body)
   const ticket = await updateTicket(
     (req as AuthedRequest).user,
-    req.params.id,
+    String(req.params.id),
     body
   )
   res.json({ success: true, data: ticket })
 })
 
 export const assignToSelf = asyncHandler(async (req, res: Response) => {
-  const ticket = await assignSelf((req as AuthedRequest).user, req.params.id)
+  const ticket = await assignSelf((req as AuthedRequest).user, String(req.params.id))
   res.json({ success: true, data: ticket })
 })
 
@@ -62,14 +62,14 @@ export const assignToAgent = asyncHandler(async (req, res: Response) => {
   const body = assignTicketSchema.parse(req.body)
   const ticket = await assignAgent(
     (req as AuthedRequest).user,
-    req.params.id,
+    String(req.params.id),
     body.assigneeId
   )
   res.json({ success: true, data: ticket })
 })
 
 export const activities = asyncHandler(async (req, res: Response) => {
-  const data = await listActivities((req as AuthedRequest).user, req.params.id)
+  const data = await listActivities((req as AuthedRequest).user, String(req.params.id))
   res.json({ success: true, data })
 })
 
@@ -77,7 +77,7 @@ export const comment = asyncHandler(async (req, res: Response) => {
   const body = commentSchema.parse(req.body)
   const data = await addComment(
     (req as AuthedRequest).user,
-    req.params.id,
+    String(req.params.id),
     body.message
   )
   res.status(201).json({ success: true, data })

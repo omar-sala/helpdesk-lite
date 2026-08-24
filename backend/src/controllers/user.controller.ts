@@ -16,6 +16,6 @@ export const agents = asyncHandler(async (_req, res: Response) => {
 
 export const update = asyncHandler(async (req, res: Response) => {
   const body = updateUserSchema.parse(req.body);
-  const data = await updateUser((req as AuthedRequest).user, req.params.id, body);
+  const data = await updateUser((req as AuthedRequest).user, String(req.params.id), body);
   res.json({ success: true, data });
 });

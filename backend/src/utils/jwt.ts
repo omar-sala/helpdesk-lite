@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import type { SignOptions } from "jsonwebtoken";
 import type { Role } from "@prisma/client";
 import { AppError } from "./errors.js";
 
@@ -17,8 +18,9 @@ export function getJwtSecret() {
 }
 
 export function signToken(payload: JwtPayload) {
+  const expiresIn = (process.env.JWT_EXPIRES_IN ?? "7d") as SignOptions["expiresIn"];
   return jwt.sign(payload, getJwtSecret(), {
-    expiresIn: process.env.JWT_EXPIRES_IN ?? "7d",
+    expiresIn,
   });
 }
 
