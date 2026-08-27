@@ -1,6 +1,7 @@
 {
   "name": "helpdesk-lite",
   "private": true,
+  "type": "module",
   "workspaces": [
     "frontend",
     "backend"
