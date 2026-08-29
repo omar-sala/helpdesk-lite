@@ -3,13 +3,27 @@ dist
 build
 .vite
 coverage
-.env
-.env.local
 .DS_Store
 *.log
 .vercel
 frontend/dist
 backend/dist
-backend/.env
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.*
 frontend/.env
 frontend/.env.local
+frontend/.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.*.local
+
+# Allow example env files
+!.env.example
+!frontend/.env.example
+!backend/.env.example
+!*.env.example
+
