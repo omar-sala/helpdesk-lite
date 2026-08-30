@@ -24,6 +24,13 @@ export function createApp() {
   )
   app.use(express.json({ limit: '1mb' }))
 
+  app.get('/', (_req, res) => {
+    res.json({
+      success: true,
+      message: 'HelpDesk Lite API is running on Vercel',
+    })
+  })
+
   app.get('/api/health', (_req, res) => {
     res.json({ success: true, data: { status: 'ok' } })
   })
