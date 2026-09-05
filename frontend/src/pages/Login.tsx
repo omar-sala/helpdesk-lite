@@ -125,7 +125,7 @@ export const Login: React.FC = () => {
               type="button"
               disabled={loading}
               onClick={() =>
-                handleDemoLogin('admin@northwind.test', 'Password123!')
+                handleDemoLogin('manager@northwind.test', 'Password123!')
               }
               className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-medium text-purple-300 bg-purple-500/10 border border-purple-500/20 rounded-lg hover:bg-purple-500/20 transition-all disabled:opacity-50"
             >
@@ -136,7 +136,7 @@ export const Login: React.FC = () => {
               type="button"
               disabled={loading}
               onClick={() =>
-                handleDemoLogin('agent@northwind.test', 'Password123!')
+                handleDemoLogin('agent.omar@northwind.test', 'Password123!')
               }
               className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-medium text-blue-300 bg-blue-500/10 border border-blue-500/20 rounded-lg hover:bg-blue-500/20 transition-all disabled:opacity-50"
             >
@@ -147,7 +147,7 @@ export const Login: React.FC = () => {
               type="button"
               disabled={loading}
               onClick={() =>
-                handleDemoLogin('employee@northwind.test', 'Password123!')
+                handleDemoLogin('employee.lina@northwind.test', 'Password123!')
               }
               className="flex items-center justify-center gap-1.5 py-2 px-1 text-xs font-medium text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:bg-emerald-500/20 transition-all disabled:opacity-50"
             >
